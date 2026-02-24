@@ -10,47 +10,105 @@ public class PalindromeChecker {
 
 
 
-            Scanner scanner = new Scanner(System.in);
+            Node class for Singly Linked List
+            static class Node {
+                char data;
+                Node next;
 
-            System.out.println("======================================");
-            System.out.println("   UC7: Deque Optimized Palindrome Check");
-            System.out.println("======================================");
-
-            System.out.print("Enter a string to check: ");
-            String input = scanner.nextLine();
-
-            // Normalize input (remove spaces and convert to lowercase)
-            input = input.replaceAll("\\s+", "").toLowerCase();
-
-            Deque<Character> deque = new LinkedList<>();
-
-            // Insert characters into deque
-            for (char ch : input.toCharArray()) {
-                deque.addLast(ch);  // Insert at rear
-            }
-
-            boolean isPalindrome = true;
-
-            // Compare front and rear
-            while (deque.size() > 1) {
-
-                char front = deque.removeFirst();  // Remove from front
-                char rear = deque.removeLast();    // Remove from rear
-
-                if (front != rear) {
-                    isPalindrome = false;
-                    break;
+                Node(char data) {
+                    this.data = data;
+                    this.next = null;
                 }
             }
 
-            // Display Result
-            if (isPalindrome) {
-                System.out.println("Result: The string is a Palindrome ");
-            } else {
-                System.out.println("Result: The string is NOT a Palindrome ");
+            // Function to reverse a linked list
+            public static Node reverse(Node head) {
+                Node prev = null;
+                Node current = head;
+                Node next = null;
+
+                while (current != null) {
+                    next = current.next;
+                    current.next = prev;
+                    prev = current;
+                    current = next;
+                }
+
+                return prev;
             }
 
-            scanner.close();
+            // Function to check palindrome
+            public static boolean isPalindrome(Node head) {
+
+                if (head == null || head.next == null)
+                    return true;
+
+                Node slow = head;
+                Node fast = head;
+
+                // Find middle using fast & slow pointers
+                while (fast != null && fast.next != null) {
+                    slow = slow.next;
+                    fast = fast.next.next;
+                }
+
+                // Reverse second half
+                Node secondHalf = reverse(slow);
+
+                Node firstHalf = head;
+                Node tempSecond = secondHalf;
+
+                // Compare both halves
+                while (tempSecond != null) {
+                    if (firstHalf.data != tempSecond.data) {
+                        return false;
+                    }
+                    firstHalf = firstHalf.next;
+                    tempSecond = tempSecond.next;
+                }
+
+                return true;
+            }
+
+            public static void main(String[] args) {
+
+                Scanner scanner = new Scanner(System.in);
+
+                System.out.println("======================================");
+                System.out.println("   UC8: Linked List Palindrome Check");
+                System.out.println("======================================");
+
+                System.out.print("Enter a string to check: ");
+                String input = scanner.nextLine();
+
+                // Normalize input
+                input = input.replaceAll("\\s+", "").toLowerCase();
+
+                // Convert string to linked list
+                Node head = null;
+                Node tail = null;
+
+                for (char ch : input.toCharArray()) {
+                    Node newNode = new Node(ch);
+
+                    if (head == null) {
+                        head = newNode;
+                        tail = newNode;
+                    } else {
+                        tail.next = newNode;
+                        tail = newNode;
+                    }
+                }
+
+                boolean result = isPalindrome(head);
+
+                if (result) {
+                    System.out.println("Result: The string is a Palindrome ✅");
+                } else {
+                    System.out.println("Result: The string is NOT a Palindrome ❌");
+                }
+
+                scanner.close();
                 }
             }
 
