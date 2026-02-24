@@ -1,8 +1,6 @@
+import java.util.Deque;
 import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
 import java.util.Scanner;
-
 
 public class PalindromeChecker {
 
@@ -10,36 +8,36 @@ public class PalindromeChecker {
 
         public static void main(String[] args) {
 
+
+
             Scanner scanner = new Scanner(System.in);
 
             System.out.println("======================================");
-            System.out.println("   UC6: Queue + Stack Palindrome Check");
+            System.out.println("   UC7: Deque Optimized Palindrome Check");
             System.out.println("======================================");
 
             System.out.print("Enter a string to check: ");
             String input = scanner.nextLine();
 
-
-            // Convert to lowercase and remove spaces for uniform comparison
+            // Normalize input (remove spaces and convert to lowercase)
             input = input.replaceAll("\\s+", "").toLowerCase();
 
-            Queue<Character> queue = new LinkedList<>();
-            Stack<Character> stack = new Stack<>();
+            Deque<Character> deque = new LinkedList<>();
 
-            // Enqueue and Push characters
+            // Insert characters into deque
             for (char ch : input.toCharArray()) {
-                queue.add(ch);      // Enqueue (FIFO)
-                stack.push(ch);     // Push (LIFO)
+                deque.addLast(ch);  // Insert at rear
             }
 
             boolean isPalindrome = true;
 
-            // Compare dequeue and pop
-            while (!queue.isEmpty()) {
-                char fromQueue = queue.remove();  // Dequeue
-                char fromStack = stack.pop();     // Pop
+            // Compare front and rear
+            while (deque.size() > 1) {
 
-                if (fromQueue != fromStack) {
+                char front = deque.removeFirst();  // Remove from front
+                char rear = deque.removeLast();    // Remove from rear
+
+                if (front != rear) {
                     isPalindrome = false;
                     break;
                 }
@@ -53,6 +51,9 @@ public class PalindromeChecker {
             }
 
             scanner.close();
-        }
-    }
+                }
+            }
+
+
+
 
