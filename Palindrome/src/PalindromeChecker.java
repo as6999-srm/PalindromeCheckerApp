@@ -45,9 +45,9 @@ public class PalindromeChecker {
 
             // Display Result
             if (isPalindrome) {
-                System.out.println("Result: The string is a Palindrome ✅");
+                System.out.println("Result: The string is a Palindrome ");
             } else {
-                System.out.println("Result: The string is NOT a Palindrome ❌");
+                System.out.println("Result: The string is NOT a Palindrome ");
             }
 
             scanner.close();
