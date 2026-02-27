@@ -1,62 +1,23 @@
 import java.util.Scanner;
 
-public class PalindromeChecker {
+public class PalindromeCheckerApp {
 
-    // Node class for Singly Linked List
-    static class Node {
-        char data;
-        Node next;
+    // Method to check palindrome after preprocessing
+    public static boolean isPalindrome(String input) {
 
-        Node(char data) {
-            this.data = data;
-            this.next = null;
-        }
-    }
+        // Step 1: Normalize string (remove spaces & special chars, convert to lowercase)
+        String normalized = input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
 
-    // Function to reverse a linked list
-    public static Node reverse(Node head) {
-        Node prev = null;
-        Node current = head;
-        Node next = null;
+        int start = 0;
+        int end = normalized.length() - 1;
 
-        while (current != null) {
-            next = current.next;
-            current.next = prev;
-            prev = current;
-            current = next;
-        }
-
-        return prev;
-    }
-
-    // Function to check palindrome
-    public static boolean isPalindrome(Node head) {
-
-        if (head == null || head.next == null)
-            return true;
-
-        Node slow = head;
-        Node fast = head;
-
-        // Find middle using fast & slow pointers
-        while (fast != null && fast.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
-        }
-
-        // Reverse second half
-        Node secondHalf = reverse(slow);
-
-        Node firstHalf = head;
-        Node tempSecond = secondHalf;
-
-        // Compare both halves
-        while (tempSecond != null) {
-            if (firstHalf.data != tempSecond.data) {
+        // Step 2: Apply palindrome logic
+        while (start < end) {
+            if (normalized.charAt(start) != normalized.charAt(end)) {
                 return false;
             }
-            firstHalf = firstHalf.next;
-            tempSecond = tempSecond.next;
+            start++;
+            end--;
         }
 
         return true;
@@ -66,38 +27,14 @@ public class PalindromeChecker {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("======================================");
-        System.out.println("   UC8: Linked List Palindrome Check");
-        System.out.println("======================================");
-
-        System.out.print("Enter a string to check: ");
+        System.out.println("=== Case-Insensitive & Space-Ignored Palindrome Checker ===");
+        System.out.print("Enter a string: ");
         String input = scanner.nextLine();
 
-        // Normalize input
-        input = input.replaceAll("\\s+", "").toLowerCase();
-
-        // Convert string to linked list
-        Node head = null;
-        Node tail = null;
-
-        for (char ch : input.toCharArray()) {
-            Node newNode = new Node(ch);
-
-            if (head == null) {
-                head = newNode;
-                tail = newNode;
-            } else {
-                tail.next = newNode;
-                tail = newNode;
-            }
-        }
-
-        boolean result = isPalindrome(head);
-
-        if (result) {
-            System.out.println("Result: The string is a Palindrome ✅");
+        if (isPalindrome(input)) {
+            System.out.println("Result: The given string is a Palindrome.");
         } else {
-            System.out.println("Result: The string is NOT a Palindrome ❌");
+            System.out.println("Result: The given string is NOT a Palindrome.");
         }
 
         scanner.close();
